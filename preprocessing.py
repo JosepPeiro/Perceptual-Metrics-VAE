@@ -83,8 +83,8 @@ def MelTransform(waveform,
 
 def Preprocessing(waveform, sample_rate,
                   mono_f = True, resampler_f = True, mel_f = True, log_norm_f = True,
-                  new_sample_rate = 1600, window_size = 1024, hop_size = 260, n_mels = 256,
-                  power = 1, freq_min = 0, freq_max = 1600 // 2,center = False,
+                  new_sample_rate = 16000, window_size = 1024, hop_size = 260, n_mels = 256,
+                  power = 1, freq_min = 0, freq_max = 16000 // 2,center = False,
                   window_fn = torch.hann_window, mel_scale = 'htk', norm = None,
                   epsilon=0.001):
     
@@ -113,3 +113,17 @@ def Preprocessing(waveform, sample_rate,
         waveform, maxi, mini = log_scale_spectrogram(waveform, epsilon = epsilon)
 
     return waveform, maxi, mini
+
+
+def SplitAudio(waveform, sample_rate, new_sample_rate = 16000):
+    resampler = Resample(orig_freq=sample_rate , new_freq=new_sample_rate)
+    waveform = resampler(waveform)
+
+    primera_mitad = waveform[:,:(waveform.shape[1]//2)]
+    segunda_mitad = waveform[:,(waveform.shape[1]//2):]
+
+    crop_length = int(4.208 * new_sample_rate)
+    first_crop = primera_mitad[:,:crop_length]
+    second_crop = segunda_mitad[:,:crop_length]
+
+    return first_crop, second_crop
