@@ -13,4 +13,3 @@ im3 = cv2.imread("./IMAGENES EJEMPLO/tractor rojo.png", cv2.IMREAD_GRAYSCALE)
 print(NLP_dist(im1, im2))
 print(NLP_dist(im3, im2))
 print(NLP_dist(im3, im1))
-
