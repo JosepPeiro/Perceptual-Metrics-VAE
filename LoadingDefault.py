@@ -50,3 +50,10 @@ def Tensoring(X, batch_size = 64):
 def LoadData(route = "./MusicCaps", limit = None, batch_size = 64):
     X, _ = LoadAudios(route = route, limit=limit)
     return Tensoring(X, batch_size = batch_size)
+
+
+def LoadNoise(route = "random_noise.pt", limit = None, batch_size = 64):
+    ruido = torch.load("random_noise.pt")
+    if limit is not None:
+        ruido = ruido[:limit*2]
+    return Tensoring(ruido, batch_size = batch_size)
