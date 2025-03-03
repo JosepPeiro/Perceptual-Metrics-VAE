@@ -5,11 +5,6 @@ import torchaudio
 import torch
 from torch.utils.data import DataLoader, TensorDataset
 
-from torch import nn
-import torch.optim as optim
-
-from torchinfo import summary
-
 
 def LoadAudios(route = "./MusicCaps", limit = None):
 

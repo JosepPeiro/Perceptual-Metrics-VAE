@@ -5,7 +5,9 @@ import torch.optim as optim
 import torch
 import pickle
 
-
+import os
+script_dir = os.path.dirname(os.path.abspath(__file__))
+os.chdir(script_dir)
 
 num_epochs = 5
 
