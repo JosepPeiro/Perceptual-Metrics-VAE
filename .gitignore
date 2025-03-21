@@ -16,6 +16,12 @@
 # /TEST/
 # /TEST/*
 
+/ENTREGAR DATOS/
+/ENTREGAR DATOS/*
+
+/MODELOS/
+/MODELOS/*
+
 Descargar musiquita.py
 
 random_noise.pt
