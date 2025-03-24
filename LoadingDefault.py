@@ -48,7 +48,27 @@ def LoadData(route = "./MusicCaps", limit = None, batch_size = 64):
 
 
 def LoadNoise(route = "random_noise.pt", limit = None, batch_size = 64):
-    ruido = torch.load("random_noise.pt")
+    ruido = torch.load(route)
     if limit is not None:
         ruido = ruido[:limit*2]
     return Tensoring(ruido, batch_size = batch_size)
+
+
+def LoadAudiosTest(route = "./PQMD", limit = None):
+
+    archivos = os.listdir(route)
+
+    X = []
+    metadata = []
+
+    if limit is not None:
+        archivos = archivos[:limit]
+
+    for archivo in archivos:
+        waveform, samp_rt = torchaudio.load(route + "/" + archivo)
+        spec, mx, mn = Preprocessing(waveform, samp_rt)
+
+        X.append(spec)
+        metadata.append({"name":archivo, "minimum":mn, "maximum":mx})
+        
+    return X, metadata
