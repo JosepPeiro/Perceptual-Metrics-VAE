@@ -1,8 +1,5 @@
 import torch
-import torchaudio
 from torchaudio.transforms import Resample, MelSpectrogram, InverseMelScale, GriffinLim
-import os
-from IPython.display import Audio
 
 
 def log_scale_spectrogram(spectrogram, epsilon=0.001):
@@ -53,7 +50,7 @@ def Mono(waveform):
 
 
 def MelTransform(waveform,
-                 sample_rate = 1600,
+                 sample_rate = 16000,
                  window_size = 1024,
                  hop_size = 260,
                  n_mels = 256,
@@ -127,3 +124,7 @@ def SplitAudio(waveform, sample_rate, new_sample_rate = 16000):
     second_crop = segunda_mitad[:,:crop_length]
 
     return first_crop, second_crop
+
+
+def adapt(XX):
+    return torch.stack(XX).unsqueeze(1)

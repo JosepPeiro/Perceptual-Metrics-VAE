@@ -1,3 +1,4 @@
+import numpy as np
 from NLPD import NLP_dist
 import cv2
 import os
@@ -13,3 +14,8 @@ im3 = cv2.imread("./IMAGENES EJEMPLO/tractor rojo.png", cv2.IMREAD_GRAYSCALE)
 print(NLP_dist(im1, im2))
 print(NLP_dist(im3, im2))
 print(NLP_dist(im3, im1))
+
+
+print(np.sum((im1.astype("float") - im2.astype("float")) ** 2) / float(im1.shape[0] * im1.shape[1]))
+print(np.sum((im3.astype("float") - im2.astype("float")) ** 2) / float(im1.shape[0] * im1.shape[1]))
+print(np.sum((im3.astype("float") - im1.astype("float")) ** 2) / float(im1.shape[0] * im1.shape[1]))
