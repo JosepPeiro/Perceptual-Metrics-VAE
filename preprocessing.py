@@ -126,5 +126,5 @@ def SplitAudio(waveform, sample_rate, new_sample_rate = 16000):
     return first_crop, second_crop
 
 
-def adapt(XX):
-    return torch.stack(XX).unsqueeze(1)
+def adapt(data):
+    return torch.stack(data).unsqueeze(1)

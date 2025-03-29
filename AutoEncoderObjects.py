@@ -101,3 +101,7 @@ class NLPDLoss(nn.Module):
         self.lp = LaplacianPyramid(5, dims=1)
     def forward(self, reconstructed, original):
         return self.lp.compare(reconstructed, original)
+
+
+def AutoEncodeData(model, data):
+    return model(data)
