@@ -5,6 +5,9 @@ import torchaudio
 import torch
 from torch.utils.data import DataLoader, TensorDataset
 
+import requests
+import io
+
 
 def LoadAudios(route = "./MusicCaps", limit = None):
 
@@ -71,4 +74,33 @@ def LoadAudiosTest(route = "./PQMD", limit = None):
         X.append(spec)
         metadata.append({"name":archivo, "minimum":mn, "maximum":mx})
         
+    return X, metadata
+
+
+def LoadAudiosTestGithub(usuario = "JosepPeiro",
+                         repositorio = "Perceptual-Metrics-VAE",
+                         directorio = "PQMD",
+                         branch = "main",
+                         limit=None):
+
+    url = f"https://api.github.com/repos/{usuario}/{repositorio}/contents/{directorio}?ref={branch}"
+    response = requests.get(url)
+    content = response.json()
+    archivos = [archivo["name"] for archivo in content]
+
+    X = []
+    metadata = []
+
+    if limit is not None:
+        archivos = archivos[:limit]
+
+    for archivo in archivos:
+        url_arch = f"https://raw.githubusercontent.com/{usuario}/{repositorio}/{branch}/{directorio}/" + archivo
+        respuesta = requests.get(url_arch)
+        waveform, samp_rt = torchaudio.load(io.BytesIO(respuesta.content))
+        spec, mx, mn = Preprocessing(waveform, samp_rt)
+
+        X.append(spec)
+        metadata.append({"name":archivo, "minimum":mn, "maximum":mx})
+
     return X, metadata
