@@ -7,6 +7,7 @@ from torch.utils.data import DataLoader, TensorDataset
 
 import requests
 import io
+import pickle
 
 
 def LoadAudios(route = "./MusicCaps", limit = None):
@@ -104,3 +105,25 @@ def LoadAudiosTestGithub(usuario = "JosepPeiro",
         metadata.append({"name":archivo, "minimum":mn, "maximum":mx})
 
     return X, metadata
+
+
+def LoadModelsGithub(model_arch, archivo,
+                     usuario = "JosepPeiro",
+                     repositorio = "Perceptual-Metrics-VAE",
+                     branch = "main",
+                     directorio = "DEF%20MODELS"):
+    url_arch = f"https://raw.githubusercontent.com/{usuario}/{repositorio}/{branch}/{directorio}/" + archivo
+    respuesta = requests.get(url_arch)
+    model_arch.load_state_dict(torch.load(io.BytesIO(respuesta.content), map_location=torch.device('cpu')))
+    return model_arch
+
+
+def LoadLossTableGithub(usuario = "JosepPeiro",
+                        repositorio = "Perceptual-Metrics-VAE",
+                        branch = "main",
+                        directorio = "DEF%20MODELS",
+                        archivo = "losses_table.pkl"):
+    url_arch = f"https://raw.githubusercontent.com/{usuario}/{repositorio}/{branch}/{directorio}/" + archivo
+    respuesta = requests.get(url_arch)
+    losses = pickle.loads(respuesta.content)
+    return losses
